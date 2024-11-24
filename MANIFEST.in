@@ -1,0 +1,128 @@
+# Include license and project metadata files
+include LICENSE
+include README.md
+include CHANGELOG.md
+include CONTRIBUTING.md
+include CODE_OF_CONDUCT.md
+include pyproject.toml
+include setup.py
+include setup.cfg
+include tox.ini
+include .pre-commit-config.yaml
+
+# Documentation
+graft docs
+prune docs/_build
+
+# Include all requirements files
+recursive-include requirements *.txt
+include requirements.txt
+
+# Test files and fixtures
+recursive-include tests *.py
+recursive-include tests/fixtures *.sql
+recursive-include tests/fixtures *.yml
+recursive-include tests/fixtures *.json
+prune tests/__pycache__
+prune tests/**/__pycache__
+
+# Source code and type hints
+recursive-include src *.py
+recursive-include src *.pyi
+recursive-include src py.typed
+
+# Configuration files and templates
+recursive-include src/config *.yml
+recursive-include src/config *.yaml
+recursive-include src/templates *.md
+recursive-include src/templates *.j2
+recursive-include src/templates *.html
+
+# GitHub specific files
+include .github/workflows/*.yml
+include .github/ISSUE_TEMPLATE/*.md
+include .github/PULL_REQUEST_TEMPLATE.md
+
+# Development configuration files
+include .flake8
+include .coveragerc
+include pytest.ini
+include mypy.ini
+include .bandit
+include .isort.cfg
+
+# Example files
+recursive-include examples *.py
+recursive-include examples *.sql
+recursive-include examples *.yml
+prune examples/**/__pycache__
+
+# Exclude unnecessary files
+global-exclude *.py[cod]
+global-exclude __pycache__
+global-exclude *.so
+global-exclude .*.swp
+global-exclude .DS_Store
+global-exclude .env
+global-exclude .venv
+global-exclude *.egg-info
+global-exclude *.egg
+global-exclude .coverage
+global-exclude coverage.xml
+global-exclude .pytest_cache
+global-exclude .mypy_cache
+global-exclude .tox
+global-exclude dist
+global-exclude build
+
+# Keep empty directories
+recursive-include src/config empty
+recursive-include src/templates empty
+recursive-include tests/fixtures empty
+
+# Version control
+exclude .git
+exclude .gitignore
+exclude .gitattributes
+
+# IDE specific files
+exclude .idea
+exclude .vscode
+exclude *.sublime-project
+exclude *.sublime-workspace
+
+# Development environment
+exclude venv
+exclude env
+exclude .env
+exclude .python-version
+exclude .python-version-local
+
+# Documentation build
+exclude site
+exclude docs/_build
+exclude docs/api/_build
+
+# Test coverage
+exclude htmlcov
+exclude .coverage
+exclude coverage.xml
+exclude .coveragerc
+
+# Packaging
+exclude *.egg-info
+exclude *.egg
+exclude dist
+exclude build
+
+# Temporary files
+exclude *.tmp
+exclude *.temp
+exclude *.log
+exclude *.bak
+exclude *.swp
+
+# Additional project-specific files
+recursive-include src/sql *.sql  # SQL templates
+recursive-include src/schemas *.json  # JSON schemas
+recursive-include src/migrations *.py  # Database migrations

@@ -1,0 +1,43 @@
+name: DBT Breaking Change Check
+
+on:
+  pull_request:
+    paths:
+      - '**.sql'
+      - 'models/**'
+      - 'dbt_project.yml'
+
+jobs:
+  check-breaking-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt-break-detector
+          
+      - name: Check for breaking changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          dbt-break-detector \
+            --project-dir . \
+            --base-branch ${{ github.base_ref }} \
+            --update-pr \
+            --repo-name ${{ github.repository }} \
+            --pr-number ${{ github.event.pull_request.number }}
+
+      - name: Check exit code
+        if: failure()
+        run: |
+          echo "Breaking changes were detected. Please review the PR description for details."
+          exit 1
